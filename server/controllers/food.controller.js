@@ -22,9 +22,18 @@ const addFood = async (req, res) => {
 
     await food.save(); // Save food item to database
 
-    return res
-      .status(201)
-      .json({ success: true, message: "Food item added successfully", food });
+    if (food) {
+      return res.status(201).json({
+        success: true,
+        message: "Food item added successfully",
+        data: food,
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: "Oops, something went wrong",
+      });
+    }
   } catch (error) {
     console.error("Error adding food item:", error.message);
     return res.status(500).json({
@@ -72,7 +81,7 @@ const removeFood = async (req, res) => {
     if (food) {
       return res.status(200).json({
         success: true,
-        message: "Food Deleted Successfully",
+        message: "Food Removed Successfully",
         data: food,
       });
     } else {
